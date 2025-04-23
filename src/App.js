@@ -6,10 +6,9 @@ function App() {
   const [hash, setHash] = useState("");
   const [maxLength, setMaxLength] = useState("");
   const [requestId, setRequestId] = useState("");
-  const [status, setStatus] = useState(null);        // full HashStatusResponse
-  const pollRef = useRef(null);                      // id для clearInterval
+  const [status, setStatus] = useState(null);
+  const pollRef = useRef(null);
 
-  /* ───────── helpers ───────── */
   const stopPolling = () => {
     if (pollRef.current) {
       clearInterval(pollRef.current);
@@ -22,7 +21,6 @@ function App() {
     pollRef.current = setInterval(() => handleCheckStatus(id, true), 3000);
   };
 
-  /* ───────── API calls ───────── */
   const handleStart = async () => {
     try {
       const res = await axios.post(
@@ -51,10 +49,8 @@ function App() {
     }
   };
 
-  /* ───────── side-effects ───────── */
-  useEffect(() => stopPolling, []); // зачистка интервала при размонтировании
+  useEffect(() => stopPolling, []);
 
-  /* ───────── UI ───────── */
   return (
       <div className="container">
         <h1>🔐 Hash Cracker</h1>
@@ -91,7 +87,6 @@ function App() {
                 <strong>Status:</strong> {status.status}
               </p>
 
-              {/* progress bar */}
               <div className="progress-wrap">
                 <div
                     className="progress-bar"
@@ -100,7 +95,6 @@ function App() {
               </div>
               <p>{status.percentage}%</p>
 
-              {/* show data only on 100 % */}
               {status.percentage === 100 && (
                   <p>
                     <strong>Found words:</strong>{" "}
